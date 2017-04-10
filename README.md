@@ -5,9 +5,12 @@ map_peptide2genome.py is a python script to map known peptides back to genome.
 
 python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename"
 
+--input: peptide sequence in first column, protein accession in second column
+
 3frame_translation.py is  python script to do 3 frame translation.
 
-The following are scripts used in the curation stage of the published proteogenomics workflow. 
+
+#The following scripts are used in the curation stage of the published proteogenomics workflow. 
 
 1. combine vardb and 6FT search result,remove redundant ones
 
@@ -38,7 +41,7 @@ python parse_blastp_out.py --input map2genome/example_vardb_6rf_novpep.hg19cor.t
 
 python prepare_annovar_input.py --input example_vardb_6rf_novpep.hg19cor.txt --output example_novpep_avinput.txt
 
-# you need to install annovar before you can run this following command
+you need to install annovar before you can run this following command
 
 ./annotate_variation.pl -out example_novpep -build hg19 example_novpep_avinput.txt humandb/
 
@@ -48,7 +51,7 @@ python parse_annovar_out.py --annovar_out example_novpep.variant_function --inpu
 
 9. Extract PSMs of novel peptide with single substitution
 
-# The column name of peptide sequence should be "Peptide", otherwise use --peptide_column to specify a different name
+The column name of peptide sequence should be "Peptide", otherwise use --peptide_column to specify a different name
 
 python extract_single-sub-novelpep_psm.py --input_psm example_vardb_6rf_novpep.psm.txt --input_pep example_vardb_6rf_novpep.hg19cor.blastp.annovar.txt --peptide_column "Peptide" --output example_novpep_1mismatch.psm.txt
 
