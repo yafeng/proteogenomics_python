@@ -99,7 +99,7 @@ def parse_gtf(infile):
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.protein_coding.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename"
+    print "Example: python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename"
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=',
                                                          'gtf=',
