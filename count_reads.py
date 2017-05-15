@@ -67,9 +67,9 @@ for line in input2:
     
     for seq in pep_dic:
         peptide=pep_dic[seq]
-        if peptide.type="continous":
+        if peptide.type=="continous":
 
-        elif peptide.type="spliced":
+        elif peptide.type=="spliced":
 
 
 
