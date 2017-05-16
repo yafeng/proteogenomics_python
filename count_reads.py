@@ -17,12 +17,65 @@ class PEPTIDE(object):
         self.splice_end=splice_end
         self.chr=chr
 
+## Function definitions.
+
+# Determine if an alignment has few enough mismatches to pass.
+def mismatches_ok(aln, max_mismatches=1):
+    try:
+        nm = aln.get_tag('nM') 
+    except:
+        try:
+            nm = aln.get_tag('NM') 
+        except:
+            return(-1) # Could not find a tag for number of mismatches
+    return (nm <= max_mismatches)
+
+# Is pairing OK? Single-end passes automatically; paired-end passes if properly paired.
+def pairing_ok(aln):
+    if not aln.is_paired: 
+        return True
+    elif aln.is_proper_pair:
+        return True
+    else:
+        return False
+    
+# Is the read multi-mapping? Fail if so
+def multimapping_ok(aln, max_loci=1):
+    try:
+        if aln.get_tag('NH') > max_loci: 
+            return False
+        else:
+            return True
+    except:
+        try:
+            if aln.get_tag('XT') == 'R': # XT:A:U means unique, XT:A:R means repeat, apparently 
+                return False 
+            else: 
+                return True
+        except:
+            return(-1) # Could not find a tag for number of loci
+
+
+def find_eligible_alns(region, bamfile, max_mismatches=1):
+    good_alns = []
+    try:
+        iter = bamfile.fetch(region[0], region[1], region[2])
+    except:
+        sys.exit("Region " + region[0] + ' ' + str(region[1]) + ' ' + str(region[2]) + '\nBAM file' + bamfile + '\nMake sure that you have an indexed BAM file!')
+    for x in iter:
+        if mismatches_ok(x) and pairing_ok(x) and multimapping_ok(x):        
+            good_alns.append(x)
+    return(good_alns)
+
+
+
+
 ################  Comand-line arguments ################
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print("Warning! wrong command, please read the manual in Readme.txt.")
-    print("Example: python scanBam.py --input_gff novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt")
+    print("Example: python scanBam.py --gff_input novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt")
     sys.exit()
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['gff_input=',
@@ -52,7 +105,7 @@ for line in input1:
         row=line.strip().split("\t")
         seq=row[8].replace("ID=","")
         if seq not in pep_dic:
-            pep_dic[seq]=PEPTIDE(ID=seq,seq=seq,chr=row[0],start=row[3],end=row[4],strand=row[6],type="continous")
+            pep_dic[seq]=PEPTIDE(ID=seq,seq=seq,chr=row[0],start=row[3],end=row[4],strand=row[6],type="continuous")
         else:
             pep_dic[seq].type="spliced"
             if pep_dic[seq].start==row[3]:
@@ -63,15 +116,25 @@ for line in input1:
 
 print(len(pep_dic))
 
+aln_table = {}
+
 for line in input2:
     # add code to process bam files
-    
+    bam = line.strip()
+    sys.stderr.write(bam + '\n')
+    aln_count = {} # A dictionary that will collect eligible alignment counts by peptide.
+    bamfile = AlignmentFile(bam,"rb")
     for seq in pep_dic:
         peptide=pep_dic[seq]
-        if peptide.type=="continous":
-            pass
+        region = [peptide.chr, int(peptide.start), int(peptide.end)]
+        if peptide.type=="continuous":
+            eligible = find_eligible_alns(region, bamfile)
         elif peptide.type=="spliced":
             pass
+        aln_count[peptide.seq]=len(eligible)
+    aln_table[bamfile] = aln_count
+
+print(aln_table)
 
 input1.close()
 input2.close()
