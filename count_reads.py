@@ -21,18 +21,19 @@ class PEPTIDE(object):
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python scanBam.py --input_gff novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt"
+    print("Warning! wrong command, please read the manual in Readme.txt.")
+    print("Example: python scanBam.py --input_gff novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt")
+    sys.exit()
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['gff_input=',
                                                          'bam_files=',
                                                          'output='])
-     for opt, arg in options:
+    for opt, arg in options:
         if opt == '--gff_input': gff_file=arg
         elif opt == '--bam_files': bam_files=arg
         elif opt == '--output': out_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting...") % opt; sys.exit()
 
 
 ### pair-end reads need to be properly paired
@@ -60,7 +61,7 @@ for line in input1:
                 pep_dic[seq].splice_start=row[3]
 
 
-print len(pep_dic)
+print(len(pep_dic))
 
 for line in input2:
     # add code to process bam files
@@ -68,11 +69,9 @@ for line in input2:
     for seq in pep_dic:
         peptide=pep_dic[seq]
         if peptide.type=="continous":
-
+            pass
         elif peptide.type=="spliced":
-
-
-
+            pass
 
 input1.close()
 input2.close()
