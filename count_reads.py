@@ -104,7 +104,9 @@ pep_dic={} # store peptide object with sequence as key
 for line in input1:
     if line[0]!="#":
         row=line.strip().split("\t")
-        seq=row[8].replace("ID=","")
+        if row[8].startswith("ID"): continue
+        #seq=row[8].replace("ID=","")
+        seq=row[8].replace("Parent=","")
         if seq not in pep_dic:
             pep_dic[seq]=PEPTIDE(ID=seq,seq=seq,chr=row[0],start=row[3],end=row[4],strand=row[6],type="continuous")
         else:
@@ -132,7 +134,10 @@ for line in input2:
             eligible = find_eligible_alns(region, bamfile)
         elif peptide.type=="spliced":
             pass
-        aln_count[peptide.seq]=len(eligible)
+        if peptide.seq in aln_count: 
+            aln_count[peptide.seq]+=len(eligible)
+        else:
+            aln_count[peptide.seq]=len(eligible)
     aln_table[bam] = aln_count
 
 input1.close()
@@ -146,8 +151,6 @@ for i in range(0,len(bam_files)):
         output.write(bam_files[i].split('.')[0].split('/')[-1])
         if (i < (len(bam_files)-1)): output.write('\t')
         else: output.write('\n')
-
-
 
 # And the counts.
 for pep in sorted(aln_table[bam_files[0]].keys()):
