@@ -98,6 +98,7 @@ else:
 
 input1=open(gff_file,"r")
 input2=open(bam_files,"r")
+output=open(out_file,"w")
 
 pep_dic={} # store peptide object with sequence as key
 for line in input1:
@@ -132,12 +133,29 @@ for line in input2:
         elif peptide.type=="spliced":
             pass
         aln_count[peptide.seq]=len(eligible)
-    aln_table[bamfile] = aln_count
-
-print(aln_table)
+    aln_table[bam] = aln_count
 
 input1.close()
 input2.close()
+
+bam_files = sorted(list(aln_table.keys()))
+
+# Write output file header.
+output.write('sequence\t')
+for i in range(0,len(bam_files)):
+        output.write(bam_files[i].split('.')[0].split('/')[-1])
+        if (i < (len(bam_files)-1)): output.write('\t')
+        else: output.write('\n')
+
+
+
+# And the counts.
+for pep in sorted(aln_table[bam_files[0]].keys()):
+    output.write(pep + '\t')
+    for i in range(0,len(bam_files)): 
+        output.write(str(aln_table[bam_files[i]][pep]))
+        if (i < (len(bam_files)-1)): output.write('\t')
+    output.write('\n')
 
 
 
