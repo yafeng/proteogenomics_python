@@ -68,7 +68,16 @@ def find_eligible_alns(region, bamfile, max_mismatches=1):
     return(good_alns)
 
 
-
+def get_overlap(s1, e1, s2, e2):
+    """ 
+    Get the coordinates of the overlap between two intervals
+    """
+    if s1 > e2 or e1 < s2: return None
+    if s1 <= s2 and e1 <= e2: return (s2, e1) # Will also work for s1 == s2 and e1 == e2 
+    if s1 <= s2 and e1 >= e2: return (s2, e2) # Alignment enclosed in peptide
+    if s1 >= s2 and e1 <= e2: return (s1, e1) # Peptide enclosed in alignment
+    if s1 >= s2 and e1 >= e2: return (s1, e2)
+    sys.exit('Check your numbers')
 
 ################  Comand-line arguments ################
 
@@ -129,15 +138,34 @@ for line in input2:
     bamfile = AlignmentFile(bam,"rb")
     for seq in pep_dic:
         peptide=pep_dic[seq]
+        aln_count[peptide.seq]=0
         region = [peptide.chr, int(peptide.start), int(peptide.end)]
-        if peptide.type=="continuous":
-            eligible = find_eligible_alns(region, bamfile)
-        elif peptide.type=="spliced":
-            pass
-        if peptide.seq in aln_count: 
-            aln_count[peptide.seq]+=len(eligible)
-        else:
-            aln_count[peptide.seq]=len(eligible)
+        # Find the alignments that could be eligible for counting based on multimapping, duplication, overall mismatches
+        eligible = find_eligible_alns(region, bamfile)
+        for aln in eligible:
+            if not 'N' in aln.cigarstring:
+                # Unspliced alignment. This means that we only need to check that there is no mismatch in the peptide region.
+                aln_count[peptide.seq]+=1          
+                # Spliced alignment. We have to check where the aligned segments actually are.
+                ct = aln.cigartuples
+                curr_loc = aln.reference_start
+                aln_starts = []
+                aln_ends = []
+                for tup in ct:
+                    if tup[0] == 0:
+                        aln_starts.append(curr_loc)
+                        aln_ends.append(curr_loc + tup[1])
+                    curr_loc += tup[1]
+                # Accept any segment that overlaps the peptide without mi
+                matching_overlap = False
+                overlap = False
+                for e in zip(aln_starts, aln_ends):
+                    ol = get_overlap(region[1], region[2], e[0], e[1])
+                    if ol:
+                        overlap = True
+                if overlap:
+                    aln_count[peptide.seq] += 1
+    #print(bam + " " + peptide.seq + " " + str(aln_count[peptide.seq]))
     aln_table[bam] = aln_count
 
 input1.close()
