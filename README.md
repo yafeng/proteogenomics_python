@@ -55,7 +55,7 @@ The column name of peptide sequence should be "Peptide", otherwise use --peptide
 
 `python extract_single-sub-novelpep_psm.py --input_psm example_novpeps.psm.txt --input_pep example_vardb_6rf_novpep.hg19cor.blastp.annovar.txt --peptide_column "Peptide" --output example_novpep_1mismatch.psm.txt`
 
-10. Run SpectrumAI [Download SpectrumAI here] (https://github.com/yafeng/SpectrumAI).
+10. Run SpectrumAI [Download SpectrumAI here](https://github.com/yafeng/SpectrumAI).
 
 11. Parse SpectrumAI result
 
@@ -67,10 +67,12 @@ The column name of peptide sequence should be "Peptide", otherwise use --peptide
     
 `python calculate_phastcons.py novel_peptides.gff3 hg19.100way.phastCons.bw output.txt`
 
-2. predict phyloCSF coding potential [see description here] (https://github.com/hussius/gff-phylocsf-human).
+2. predict phyloCSF coding potential [see description here](https://github.com/hussius/gff-phylocsf-human).
+
 `python calculate_phyloscf.py novel_peptides.gff3 > novpeps_phyloCSF.txt`
 
 3. count reads support for novel peptides in Bam files
+
 `python count_reads.py --input_gff novel_peptides.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt `
 
 
