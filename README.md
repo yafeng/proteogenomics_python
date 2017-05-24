@@ -41,7 +41,7 @@ map_peptide2genome.py is a python script to map known peptides back to genome.
 
 `python prepare_annovar_input.py --input example_vardb_6rf_novpep.hg19cor.txt --output example_novpep_avinput.txt`
 
-you need to install annovar before you can run this following command
+you need to install annovar before you can run the next command. [Annovar Download page](http://annovar.openbioinformatics.org/en/latest/user-guide/download/)
 
 `./annotate_variation.pl -out example_novpep -build hg19 example_novpep_avinput.txt humandb/`
 
