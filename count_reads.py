@@ -22,7 +22,7 @@ class PEPTIDE(object):
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python scanBam.py --input_gff novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt"
+    print "Example: python count_reads.py --input_gff novelpep.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt"
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['gff_input=',
                                                          'bam_files=',
