@@ -7,9 +7,19 @@ map_peptide2genome.py is a python script to map known peptides back to genome.
 
 --input: peptide sequence in first column, protein accession in second column
 
-3frame_translation.py is  python script to do 3 frame translation.
+3frame_translation.py is  python script to do three frame translation.(default standard code)
+Example:
 
+`python 3frame_translation.py genome.fasta genome.3FT.fasta`
 
+sixframetranslation.py is python script to do six frame translation.
+Example: 
+
+`python sixframetranslation.py --input genome.fasta --output genome.6FT.txt --nuclear_trans_table 1 --mito_trans_table 2 --min_length 8 --max_length 30`
+
+--nuclear_trans_table is to specify translation table used for nuclear DNA
+
+--mito_trans_table is to specify translation table used for mitochondrial DNA
 
 1. combine vardb and 6FT search result,remove redundant ones. (if you only do one type of search, you can skip this)
 
