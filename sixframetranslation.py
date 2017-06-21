@@ -7,14 +7,11 @@ from Bio.Alphabet import IUPAC
 
 def OUTPUT_PEPTIDE(a,b,c,d,pep,r): # only output peptides in a certain length range defined by r
     if len(pep) in r:
-        output.write("%s_%s_%s_%s\t%s\n" % (a,b,c,d,pep))
+        output.write("%s_%s_%s_%s\t%s\n" % (a,b,c,d,str(pep).replace("*","")))
 
-def translate_trypsin(seq,strand):
+def translate_trypsin(seq,strand,start,end):
     peptide=""
-    start=1
-    chr_len=len(seq)
-    end=chr_len
-    for i in range(0,chr_len,3):
+    for i in range(0,len(seq),3):
         codon=seq[i:i+3]
         if len(codon)!=3:
             continue
@@ -80,24 +77,50 @@ length_range=range(min_len,max_len+1)
 
 for record in genome_dict:
     coding_dna=genome_dict[record].seq
+    chr=record
+    chr_len=len(coding_dna)
     
     f1_seq=coding_dna
     r1_seq=coding_dna.reverse_complement()
     
-    translate_trypsin(f1_seq,"+")
-    translate_trypsin(r1_seq,"-")
+    N_count_5prime=0  # count NNN from 5 prime end
+    N_count_3prime=0  # count NNN from 3 prime end
+    for base in f1_seq:
+        if str(base)=="N":
+            N_count_5prime+=1
+        else:
+            break
+    start=N_count_5prime+1
 
-    f2_seq=f1_seq[1::]
-    r2_seq=r1_seq[1::]
+    for base in r1_seq:
+        if str(base)=="N":
+            N_count_3prime+=1
+        else:
+            break
+
+    end=chr_len-N_count_3prime
+
+    ORF1_seq=f1_seq[N_count_5prime:chr_len-N_count_3prime] #remove NNNN from DNA sequence
+    ORF4_seq=r1_seq[N_count_3prime:chr_len-N_count_5prime] #remove NNNN from DNA sequence
+    translate_trypsin(ORF1_seq,"+",start,end)
+    translate_trypsin(ORF4_seq,"-",start,end)
+
+
+    ORF2_seq=f1_seq[N_count_5prime+1:chr_len-N_count_3prime]
+    ORF5_seq=r1_seq[N_count_3prime+1:chr_len-N_count_5prime]
+    start+=1
+    end=end-1
+
+    translate_trypsin(ORF2_seq,"+",start,end)
+    translate_trypsin(ORF5_seq,"-",start,end)
+
+
+    ORF3_seq=f1_seq[N_count_5prime+2:chr_len-N_count_3prime]
+    ORF6_seq=r1_seq[N_count_3prime+2:chr_len-N_count_5prime]
+    start+=1
+    end=end-1
     
-    translate_trypsin(f2_seq,"+")
-    translate_trypsin(r2_seq,"-")
-
-
-    f3_seq=f1_seq[2::]
-    r3_seq=r1_seq[2::]
-    
-    translate_trypsin(f3_seq,"+")
-    translate_trypsin(r3_seq,"-")
+    translate_trypsin(ORF3_seq,"+",start,end)
+    translate_trypsin(ORF6_seq,"-",start,end)
 
 output.close()
