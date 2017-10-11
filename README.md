@@ -1,10 +1,10 @@
 # proteogenomics_python
 python scripts for proteogenomics analysis
 
-map_peptide2genome.py is a python script to map known peptides back to genome.You need three input files: 
+map_peptide2genome.py is a python script to map known peptides back to genome.You need three input files:  
 a gtf annotation file  
-a fasta file including protein sequences 
-a IDmap file which contains gene id, transcript id and protein id 
+a fasta file including protein sequences  
+a IDmap file which contains gene id, transcript id and protein id  
 
 IDmap file can be downloaded using Ensembl Biomart tool. See IDmap_file_example.txt. 
 
