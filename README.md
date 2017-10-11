@@ -1,9 +1,14 @@
 # proteogenomics_python
 python scripts for proteogenomics analysis
 
-map_peptide2genome.py is a python script to map known peptides back to genome.
+map_peptide2genome.py is a python script to map known peptides back to genome.You need three input files: 
+a gtf annotation file  
+a fasta file including protein sequences 
+a IDmap file which contains gene id, transcript id and protein id 
 
-`python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename`
+IDmap file can be downloaded using Ensembl Biomart tool. See IDmap_file_example.txt. 
+
+`python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.ensembl87.gtf --fasta Homo_sapiens.GRCh37.ensembl87.pep.all.fa  --IDmap Ensembl87_IDlist.txt --output output_filename`
 
 --input: peptide sequence in first column, protein accession in second column
 
@@ -12,7 +17,7 @@ Example:
 
 `python 3frame_translation.py genome.fasta genome.3FT.fasta`
 
-sixframetranslation.py is python script to do six frame translation.
+sixframetranslation.py is python script to do six frame translation and full trypsin digestion at the same time.
 Example: 
 
 `python sixframetranslation.py --input genome.fasta --output genome.6FT.txt --nuclear_trans_table 1 --mito_trans_table 2 --min_length 8 --max_length 30`
