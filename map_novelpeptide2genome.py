@@ -151,7 +151,11 @@ fasta_output=open(fasta_file,'w')
 gff_output=open(gff_file,'w')
 bed_output=open(bed_file,'w')
 
-input.readline()
+header=input.readline().split("\t")
+
+pep_col = header.index("Peptide")
+pro_col = header.index("Protein")
+
 newheader=["Peptide","Protein","chr","start","end","strand"]
 tab_output.write("\t".join(newheader))
 
@@ -160,8 +164,8 @@ novpep_dic={}
 
 for line in input:
     row=line.strip().split("\t")
-    peptide=re.sub("[\W\d]","",row[11].strip()).upper()
-    proteins = row[12]
+    peptide=re.sub("[\W\d]","",row[pep_col].strip()).upper()
+    proteins = row[pro_col]
     
     if peptide not in novpep_dic:
         novpep_dic[peptide] = 1
@@ -193,7 +197,7 @@ for line in input:
         exons=feature_dic[transcript_id]
     except KeyError:
         non_mapped_pep+=1
-        print "KeyError",peptide,transcript_id
+        print "KeyError",transcript_id,"doesn't exit in GTF input file"
         continue;
     
     aa_seq=str(seq_dic[protein_id].seq)
