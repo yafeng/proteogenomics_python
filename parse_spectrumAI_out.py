@@ -24,35 +24,35 @@ output=open(output_file,"w")
 header1=input1.readline().split("\t")
 index1=header1.index("Peptide")
 index2=header1.index("flanking_ions_support")
+index3=header1.index("status")
 
-
-pep_yes={}  # found with b,y ion support
+specAI_result={}  # found with b,y ion support
 
 for line in input1:
     row=line.strip().split("\t")
+    pep=re.sub("[\W\d]","",row[index1].strip())
     try:
-        if row[index2]=="YES":
-            pep=re.sub("[\W\d]","",row[index1].strip())
-            pep_yes[pep]=1
+        if row[index3]=="checked":
+            specAI_result[pep]=row[index2]
     except IndexError:
-        print line
+        print "the line doesn't have the right number of columns", line
 
-header2=input2.readline().split("\t")
-index3=header2.index("category")
+header2=input2.readline().strip().split("\t")
+header2 += ["SpectrumAI_result"]
 
-output.write("\t".join(header2))
+output.write("\t".join(header2)+"\n")
 
 n=0
-for line in input2:
+for line in input2: # peptide sequence is in first column
     row=line.strip().split("\t")
-    category=row[index3]
-    pep=row[0]
-    if "1 mismatch" in category:
-        n+=1
-        if pep in pep_yes:
-            output.write(line)
+    pep=re.sub("[\W\d]","",row[0].strip())
+    
+    if pep in specAI_result:
+        row.append(specAI_result[pep])
     else:
-        output.write(line)
+        row.append("NA")
+
+    output.write("\t".join(row)+"\n")
 
 input1.close()
 input2.close()

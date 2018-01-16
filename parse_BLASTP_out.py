@@ -1,4 +1,6 @@
 import sys
+import os
+import getopt
 from Bio import SeqIO
 import re
 
@@ -64,7 +66,7 @@ for line in input2:
         
         elif int(gap)==0 and int(mismatch)==1:
             category="map to known protein with 1 mismatch"
-            for i in range(len(pep)):
+            for i in range(peplen):
                 if qid[i]!=alignseq[i]:
                     single_sub_pos=str(i+1)
 
