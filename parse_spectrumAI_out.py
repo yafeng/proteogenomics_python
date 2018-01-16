@@ -61,7 +61,4 @@ input1.close()
 input2.close()
 output.close()
 
-print ("%d out of %d single substitution novel peptides passed SpectrumAI curation" % (n2,n1)
-
-
-
+print ("%d out of %d single substitution novel peptides passed SpectrumAI curation" % (n2,n1))
