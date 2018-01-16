@@ -116,8 +116,8 @@ def get_id(s):
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python map_novelpeptide2genome.py --input input_filename --gtf VarDB.gtf --fastadb VarDB.fasta --tab_out file0.txt --fasta_out file1.fasta --gff3_out file2.gff3 --bed_out file3.bed"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python map_novelpeptide2genome.py --input input_filename --gtf VarDB.gtf --fastadb VarDB.fasta --tab_out file0.txt --fasta_out file1.fasta --gff3_out file2.gff3 --bed_out file3.bed")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=',
                                                          'gtf=',
@@ -135,14 +135,14 @@ else:
         elif opt == '--gff3_out': gff_file=arg
         elif opt == '--bed_out': bed_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
-print "reading GTF input file"
+print("reading GTF input file")
 feature_dic=parse_gtf(gtf_file)
-print "number of unique transcripts in GTF file",len(feature_dic)
+print("number of unique transcripts in GTF file",len(feature_dic))
 
 seq_dic = SeqIO.index(db_file,'fasta')
-print "number of unique protein sequences in fasta file",len(seq_dic)
+print("number of unique protein sequences in fasta file",len(seq_dic))
 
 input=open(input_file,'r') # peptide table with two columns, peptide sequence in first column, protein ID in second column
 
@@ -197,7 +197,7 @@ for line in input:
         exons=feature_dic[transcript_id]
     except KeyError:
         non_mapped_pep+=1
-        print "KeyError",transcript_id,"doesn't exit in GTF input file"
+        print("KeyError",transcript_id,"doesn't exit in GTF input file")
         continue;
     
     aa_seq=str(seq_dic[protein_id].seq)
@@ -218,7 +218,7 @@ for line in input:
     #print pep_trans_start,pep_trans_end
     pep_chr,pep_strand,pep_chr_start,pep_chr_end,pep_start_exon,pep_end_exon=get_pep_cor(exons,pep_trans_start,pep_trans_end)
 
-    newrow=[peptide,proteins]+map(str,[pep_chr,pep_chr_start,pep_chr_end,pep_strand])
+    newrow=[peptide,proteins]+list(map(str,[pep_chr,pep_chr_start,pep_chr_end,pep_strand]))
     tab_output.write("\t".join(newrow)+"\n")
 
     bed_output.write("%s\t%s\t%s\tA\t-\tComments:Seq=%s\n" % (pep_chr,pep_chr_start,pep_chr_start,peptide))
@@ -227,11 +227,11 @@ for line in input:
     #handle exceptions
     if pep_chr_start>pep_chr_end:
         non_mapped_pep+=1
-        print "mapping error",peptide,protein_id, "skip this peptide"
+        print("mapping error",peptide,protein_id, "skip this peptide")
         continue;
     if pep_chr_start<=0:
         non_mapped_pep+=1
-        print "mapping error",peptide,protein_id,"skip this peptide"
+        print("mapping error",peptide,protein_id,"skip this peptide")
         continue;
 
     #print pep_chr_start,pep_chr_end
@@ -280,5 +280,5 @@ tab_output.close()
 bed_output.close()
 fasta_output.close()
 
-print "total number of unique peptides",len(novpep_dic)
-print "total number of unmapped peptides",non_mapped_pep
+print("total number of unique peptides",len(novpep_dic))
+print("total number of unmapped peptides",non_mapped_pep)
