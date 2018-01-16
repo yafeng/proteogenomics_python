@@ -5,7 +5,7 @@ import getopt
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python parse_blastp_output.py --input input_filename --blastp_result peptide.blastp.out.txt --fasta Homo_sapiens.GRCh37.75.pep.all.fa --output output_filename"
+    print "Example: python parse_spectrumAI_out.py --spectrumAI_out specAI_file --input input_psms.txt --output output_filename"
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['spectrumAI_out=',
                                                          'input=',
