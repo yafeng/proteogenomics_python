@@ -2,8 +2,8 @@ import sys
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python prepare_annovar_input.py --input example_vardb_6rf_novpep.hg19cor.txt --output example_novpep_avinput.txt"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python prepare_annovar_input.py --input example_vardb_6rf_novpep.hg19cor.txt --output example_novpep_avinput.txt")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','output='])
     for opt, arg in options:
@@ -11,7 +11,7 @@ else:
         if opt == '--input': input_file=arg
         elif opt == '--output': output_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 
 input1=open(annovar_file,"r") # annovar output
@@ -32,7 +32,7 @@ while True:
         fun=row1[0]+"-"+row2[0]
         category[pep]=[fun,row1[1]+","+row2[1]]
 
-print len(category)
+print(len(category))
 
 header=input2.readline().strip().split("\t")
 header+=["function class","associated gene"]

@@ -12,7 +12,7 @@ for record in SeqIO.parse(handle,'fasta'):
     ORF3=seq[2::].translate()
     
     if record.id=="":
-        print record.description, record.seq
+        print(record.description, record.seq)
         continue
     output.write("%s\n%s\n" % ('>'+record.id+'_ORF1',ORF1))
     output.write("%s\n%s\n" % ('>'+record.id+'_ORF2',ORF2))

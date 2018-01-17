@@ -50,8 +50,8 @@ def translate_trypsin(seq,strand,start,end):
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python sixframetranslation.py --input genome.fasta --output genome.6FT.txt --nuclear_trans_table 1 --mito_trans_table 2 --min_length 8 --max_length 30"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python sixframetranslation.py --input genome.fasta --output genome.6FT.txt --nuclear_trans_table 1 --mito_trans_table 2 --min_length 8 --max_length 30")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=',
                                                          'output=',
@@ -67,13 +67,13 @@ else:
         elif opt == '--min_length':min_len=int(arg)
         elif opt == '--max_length':max_len=int(arg)
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 genome_dict = SeqIO.index(input_file, "fasta") #whole genome sequence
 output=open(output_file,'w') #tab demiliated.txt
 
 cut_site={"K":1,"R":1,"*":1}
-length_range=range(min_len,max_len+1)
+length_range=list(range(min_len,max_len+1))
 
 for record in genome_dict:
     coding_dna=genome_dict[record].seq

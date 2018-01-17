@@ -29,14 +29,14 @@ for line in input2:
     acc=row[1]
     row[0]=pep
     if acc.count("chr")>1:
-        print pep,acc
+        print(pep,acc)
         continue
     if pep not in pepdic:
         pepdic[pep]=1
         output.write("\t".join(row)+"\n")
 
 
-print "total number of unique novel peptides:",len(pepdic)
+print("total number of unique novel peptides:",len(pepdic))
 input1.close()
 input2.close()
 output.close()

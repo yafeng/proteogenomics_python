@@ -15,7 +15,7 @@ for line in input1:
     pep=row[0]
     pep_dic[pep]=1
 
-print len(pep_dic)
+print(len(pep_dic))
 
 output.write(input2.readline())
 
@@ -40,7 +40,7 @@ for line in input3:
             output.write(line)
 
 
-print len(spectra_dic)
+print(len(spectra_dic))
 input1.close()
 input2.close()
 input3.close()

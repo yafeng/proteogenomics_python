@@ -15,7 +15,7 @@ else:
         elif opt == '--input':input2_file=arg
         elif opt == '--output': output_file=arg
         else:
-            print ("Warning! Command-line argument: %s not recognized. Exiting...") % opt; sys.exit()
+            print(("Warning! Command-line argument: %s not recognized. Exiting...") % opt); sys.exit()
 
 input1=open(input1_file,"r")  ## SpectrumAI output
 input2=open(input2_file,"r")  ## novelpep table, peptide sequence is in first column
@@ -35,7 +35,7 @@ for line in input1:
         if row[index3]=="checked":
             specAI_result[pep]=row[index2]
     except IndexError:
-        print ("the line doesn't have the right number of columns"), line
+        print(("the line doesn't have the right number of columns"), line)
 
 header2=input2.readline().strip().split("\t")
 header2 += ["SpectrumAI_result"]
@@ -61,4 +61,4 @@ input1.close()
 input2.close()
 output.close()
 
-print ("%d out of %d single substitution novel peptides passed SpectrumAI curation" % (n2,n1))
+print(("%d out of %d single substitution novel peptides passed SpectrumAI curation" % (n2,n1)))

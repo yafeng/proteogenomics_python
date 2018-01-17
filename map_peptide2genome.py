@@ -98,8 +98,8 @@ def parse_gtf(infile):
 
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python map_peptide2genome.py --input input_filename --gtf Homo_sapiens.GRCh37.75.gtf --fasta Homo_sapiens.GRCh37.75.pep.all.fa  --IDmap Ensembl75_IDlist.txt --output output_filename")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=',
                                                          'gtf=',
@@ -113,7 +113,7 @@ else:
         elif opt == '--IDmap':IDmap_file=arg
         elif opt == '--output': output_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 #restrict peptide mapping in the 24 chromosomes.
 chr_dic={"MT":1,"X":1,"Y":1,"M":1}
@@ -121,9 +121,9 @@ for i in range(1,23):
     chr_dic[str(i)]=1
 
 
-print "reading GTF input file"
+print("reading GTF input file")
 feature_dic=parse_gtf(gtf_file)
-print "number of unique transcripts in GTF file",len(feature_dic)
+print("number of unique transcripts in GTF file",len(feature_dic))
 
 IDlist_input=open(IDmap_file,"r")
 id_dic={}
@@ -135,7 +135,7 @@ for line in IDlist_input:
         if ensp not in id_dic:
             id_dic[ensp]=enst
 IDlist_input.close()
-print "number of unique ENSP IDs in ID table",len(id_dic)
+print("number of unique ENSP IDs in ID table",len(id_dic))
 
 track_color="0,0,0" #RGB value for color
 
@@ -155,11 +155,11 @@ input.close()
 output=open(output_file,'w')
 
 seq_dic = SeqIO.index(fasta_file,'fasta')
-print "number of unique protein sequences in fasta file",len(seq_dic)
+print("number of unique protein sequences in fasta file",len(seq_dic))
 
 non_mapped_pep=0
 
-for peptide,ensp in pep_dic.iteritems():
+for peptide,ensp in pep_dic.items():
     enst=id_dic[ensp]
     try:
         exons=feature_dic[enst]
@@ -229,6 +229,6 @@ for peptide,ensp in pep_dic.iteritems():
         output.write("\t".join(map(str,gff_format_line3))+"\n")
 
 output.close()
-print "total number of unique peptides",len(pep_dic)
-print "total number of unmapped peptides",non_mapped_pep
+print("total number of unique peptides",len(pep_dic))
+print("total number of unmapped peptides",non_mapped_pep)
 

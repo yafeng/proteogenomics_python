@@ -22,9 +22,9 @@ for line in input1:
 
 
 ## sort by chr and start cor
-peplist.sort(key=lambda x:map(int,(x.chr,x.start)))
+peplist.sort(key=lambda x:list(map(int,(x.chr,x.start))))
 
-print "total peptide number",len(peplist)
+print("total peptide number",len(peplist))
 
 loci_group=OrderedDict()
 loci_tag=0
@@ -44,7 +44,7 @@ for pep in peplist:
         loci_tag+=1
         loci_group[loci_tag]=[pep]
 
-print "total coding loci",len(loci_group)
+print("total coding loci",len(loci_group))
 pep_count=[]
 loci_list=[]
 
@@ -55,18 +55,18 @@ for loci in loci_group:
         loci_list.append(loci)
         output.write(str(loci)+"\t"+pep.content)
 
-print 'loci Peptide count'
+print('loci Peptide count')
 for count in sorted(list(set(pep_count))):
-    print count,pep_count.count(count)
+    print(count,pep_count.count(count))
 
 
-print 'the following Loci supported by more than 2 peptides'
+print('the following Loci supported by more than 2 peptides')
 
 dic={}
 for loci in loci_list:
     if loci_list.count(loci)>=2:
         if loci not in dic:
-            print loci,loci_list.count(loci)
+            print(loci,loci_list.count(loci))
             dic[loci]=1
 
 

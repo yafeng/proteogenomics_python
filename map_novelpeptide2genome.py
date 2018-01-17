@@ -135,14 +135,14 @@ else:
         elif opt == '--gff3_out': gff_file=arg
         elif opt == '--bed_out': bed_file=arg
         else:
-            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
+            print(("Warning! Command-line argument: %s not recognized. Exiting..." % opt)); sys.exit()
 
 print("reading GTF input file")
 feature_dic=parse_gtf(gtf_file)
-print("number of unique transcripts in GTF file",len(feature_dic))
+print(("number of unique transcripts in GTF file",len(feature_dic)))
 
 seq_dic = SeqIO.index(db_file,'fasta')
-print("number of unique protein sequences in fasta file",len(seq_dic))
+print(("number of unique protein sequences in fasta file",len(seq_dic)))
 
 input=open(input_file,'r') # peptide table with two columns, peptide sequence in first column, protein ID in second column
 
@@ -197,7 +197,7 @@ for line in input:
         exons=feature_dic[transcript_id]
     except KeyError:
         non_mapped_pep+=1
-        print("KeyError",transcript_id,"doesn't exit in GTF input file")
+        print(("KeyError",transcript_id,"doesn't exit in GTF input file"))
         continue;
     
     aa_seq=str(seq_dic[protein_id].seq)
@@ -227,11 +227,11 @@ for line in input:
     #handle exceptions
     if pep_chr_start>pep_chr_end:
         non_mapped_pep+=1
-        print("mapping error",peptide,protein_id, "skip this peptide")
+        print(("mapping error",peptide,protein_id, "skip this peptide"))
         continue;
     if pep_chr_start<=0:
         non_mapped_pep+=1
-        print("mapping error",peptide,protein_id,"skip this peptide")
+        print(("mapping error",peptide,protein_id,"skip this peptide"))
         continue;
 
     #print pep_chr_start,pep_chr_end
@@ -280,5 +280,5 @@ tab_output.close()
 bed_output.close()
 fasta_output.close()
 
-print("total number of unique peptides",len(novpep_dic))
-print("total number of unmapped peptides",non_mapped_pep)
+print(("total number of unique peptides",len(novpep_dic)))
+print(("total number of unmapped peptides",non_mapped_pep))

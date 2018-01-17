@@ -8,15 +8,15 @@ peptide_column="Peptide" #default name to look for peptide column in input file
 protein_id_column = "Protein" #default name to look for protein accessions in input file
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python lab_sub_pos.py --input_psm PSM_filename --output output_filename"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python lab_sub_pos.py --input_psm PSM_filename --output output_filename")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input_psm=','output='])
     for opt, arg in options:
         if opt == '--input_psm': input_file=arg
         elif opt == '--output': output_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 input1=open(input_file,"r") # vardb search psm table
 
@@ -26,7 +26,7 @@ try:
     pep_index=header1.index(peptide_column)
     pro_index=header1.index(protein_id_column)
 except ValueError:
-    print "Peptide, Protein columns are not in input table"; sys.exit()
+    print("Peptide, Protein columns are not in input table"); sys.exit()
 
 output=open(output_file,"w") # 1 mismatch novel peptide PSM
 
