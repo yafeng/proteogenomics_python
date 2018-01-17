@@ -5,8 +5,8 @@ from Bio import SeqIO
 import re
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
-    print "Warning! wrong command, please read the mannual in Readme.txt."
-    print "Example: python parse_blastp_output.py --input input_filename --blastp_result peptide.blastp.out.txt --fasta Homo_sapiens.GRCh37.75.pep.all.fa --output output_filename"
+    print("Warning! wrong command, please read the mannual in Readme.txt.")
+    print("Example: python parse_blastp_output.py --input input_filename --blastp_result peptide.blastp.out.txt --fasta Homo_sapiens.GRCh37.75.pep.all.fa --output output_filename")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=',
                                                          'blastp_result=',
@@ -18,7 +18,7 @@ else:
         elif opt == '--blastp_result':blastp_file=arg
         elif opt == '--output': output_file=arg
         else:
-            print "Warning! Command-line argument: %s not recognized. Exiting..." % opt; sys.exit()
+            print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 input1= SeqIO.parse(fasta_file,"fasta") # blastp reference database
 seqdb={}
@@ -27,7 +27,7 @@ for record in input1:
     if record.id not in seqdb:
         seqdb[record.id]=seq
 
-print len(seqdb)
+print(len(seqdb))
 
 input2= open(blastp_file,"r") # blastp output
 input3= open(input_file,"r") # novel peptide cor txt
