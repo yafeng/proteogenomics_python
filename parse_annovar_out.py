@@ -9,7 +9,7 @@ else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','output=', 'annovar_out='])
     for opt, arg in options:
         if opt == '--annovar_out': annovar_file=arg
-        if opt == '--input': input_file=arg
+        elif opt == '--input': input_file=arg
         elif opt == '--output': output_file=arg
         else:
             print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
