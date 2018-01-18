@@ -157,7 +157,7 @@ pep_col = header.index("Peptide")
 pro_col = header.index("Protein")
 
 newheader=["Peptide","Protein","chr","start","end","strand"]
-tab_output.write("\t".join(newheader))
+tab_output.write("\t".join(newheader) + '\n')
 
 non_mapped_pep=0
 novpep_dic={}
