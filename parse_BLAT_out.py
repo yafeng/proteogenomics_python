@@ -45,7 +45,10 @@ for pep in pep_map:
 print("blat multi map peptides"),len(pep_multi_loci)
 print("blat unique map peptides"),len(pep_unique_loci)
 
-output.write(input2.readline())
+header = input2.readline().strip().split("\t")
+header += ["blat_result"]
+output.write("\t".join(header)+"\n")
+
 for line in input2:
     row=line.strip().split("\t")
     pep=row[0]
@@ -55,8 +58,9 @@ for line in input2:
         blat_result = pep_multi_loci[pep]
     elif pep in pep_unique_loci:
         blat_result = pep_unique_loci[pep]
-    else:
-        output.write("\t".join(row)+"\n")
+    
+    row.append(blat_result)
+    output.write("\t".join(row)+"\n")
 
 input.close()
 input2.close()
