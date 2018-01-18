@@ -1,10 +1,17 @@
 '''
     the script is written by Mikael Hussius @ SciLifeLab, https://github.com/hussius/gff-phylocsf-human
+    
+    download the following bigwig files first
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF+0.bw
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF+1.bw
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF+2.bw
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF-0.bw
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF-1.bw
+    # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF-2.bw
 '''
 
-
-import pyBigWig as pw
 import sys
+import pyBigWig as pw
 
 def predict_coding(vec):
     coding = "no"
@@ -13,8 +20,14 @@ def predict_coding(vec):
         if v > 0: coding = "yes"
     return(coding)
 
-if len(sys.argv)<2:
-    sys.exit("USAGE: python " + sys.argv[0] + " <GFF file>")
+if len(sys.argv)<4:
+    sys.exit("USAGE: python " + sys.argv[0] + "<GFF file> <BigWig file path> <output file>")
+
+infile = sys.argv[1]
+bw_file_path = sys.argv[2]
+outfile = sys.argv[3]
+
+rpathbase = bw_file_path + "PhyloCSF"
 
 regs = []
 chrom={}
@@ -22,7 +35,7 @@ starts={}
 ends={}
 peptide={}
 
-for line in open(sys.argv[1]):
+for line in open(infile):
     if not line.startswith("chr"):
         continue
     fields = line.strip().split()
@@ -35,12 +48,12 @@ for line in open(sys.argv[1]):
     peptide[name]=pept.split("=")[1]
     regs.append(name)
 
-rpathbase = "https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF"
-
 scores = {}
 
+rpathbase =
+
 for rf in ["+0","+1","+2","-0","-1","-2"]:
-    sys.stderr.write("Reading frame " + rf + "\n")
+    sys.stderr.write("Searching PhyloCSF reading frame " + rf + "\n")
     rpath = rpathbase + rf + ".bw"
     bw = pw.open(rpath)
     frame_score = {}
@@ -53,9 +66,12 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
         frame_score[r] = score
         scores[rf] = frame_score
 
-print("\t".join(["chromosome","start","end","peptide_seq","+0","+1","+2","-0","-1","-2","overall_prediction"]))
+
+output = open(outfile,"w")
+output.write("\t".join(["Peptide","chromosome","start","end","+0","+1","+2","-0","-1","-2","overall_prediction"])+"\n")
 for r in regs:
     scoreList = [scores["+0"][r], scores["+1"][r], scores["+2"][r], scores["-0"][r], scores["-1"][r], scores["-2"][r]]
     coords = [chrom[r], str(starts[r]), str(ends[r])]
-    print("\t".join(coords) + "\t" + peptide[r] + "\t" + "\t".join(map(str,scoreList)) + "\t" + predict_coding(scoreList))
+    row = [peptide[r]]+coords+scoreList+ [predict_coding(scoreList)]
+    print("\t".join(row)+"\n")
 
