@@ -1,5 +1,4 @@
 import sys
-from Bio import SeqIO
 
 input=open(sys.argv[1],"r")  # blat output
 input2=open(sys.argv[2],"r") # novel peptide gene cor file
@@ -11,8 +10,11 @@ pep_dic={}
 pep_map={}
 pep_multi_loci={}
 pep_unique_loci={}
+
+n=0
 for line in input:
     row=line.strip().split("\t")
+    n+=1
     if row[0].isdigit():
         pep=row[-2].replace(",","")
         pep_dic[pep]=1
@@ -30,8 +32,9 @@ for line in input:
             else:
                 pep_map[pep].append(chr+"_"+chr_start+"_"+chr_end+"_"+strand)
 
-print "blat return peptides",len(pep_dic)
-print "blat qsize=match peptides",len(pep_map)
+print ("the number of peptides input for blat:"),n
+print ("blat qsize=match peptides"),len(pep_map)
+print ("blat return peptides"),len(pep_dic)
 
 for pep in pep_map:
     if len(pep_map[pep])>1:
