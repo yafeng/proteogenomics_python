@@ -1,4 +1,6 @@
 import sys
+import getopt
+import os
 from collections import OrderedDict
 
 class Peptide(object):
