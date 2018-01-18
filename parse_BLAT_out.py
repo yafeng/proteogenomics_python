@@ -32,9 +32,9 @@ for line in input:
             else:
                 pep_map[pep].append(chr+"_"+chr_start+"_"+chr_end+"_"+strand)
 
-print ("the number of peptides input for blat:"),n
-print ("blat qsize=match peptides"),len(pep_map)
-print ("blat return peptides"),len(pep_dic)
+print("the number of peptides input for blat:"),n
+print("blat qsize=match peptides"),len(pep_map)
+print("blat return peptides"),len(pep_dic)
 
 for pep in pep_map:
     if len(pep_map[pep])>1:
@@ -42,8 +42,8 @@ for pep in pep_map:
     elif len(pep_map[pep])==1:
         pep_unique_loci[pep]=pep_map[pep]
 
-print ("blat multi map peptides"),len(pep_multi_loci)
-print ("blat unique map peptides"),len(pep_unique_loci)
+print("blat multi map peptides"),len(pep_multi_loci)
+print("blat unique map peptides"),len(pep_unique_loci)
 
 output.write(input2.readline())
 for line in input2:
@@ -51,7 +51,7 @@ for line in input2:
     pep=row[0]
 
     if pep in pep_multi_loci:
-        print "multimapped peptide",line
+        print("multimapped peptide",line)
     elif pep in pep_unique_loci:
         output.write("\t".join(row)+"\n")
     else:
