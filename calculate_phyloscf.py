@@ -11,6 +11,7 @@
 '''
 
 import sys
+import os
 import pyBigWig as pw
 
 def predict_coding(vec):
@@ -26,8 +27,6 @@ if len(sys.argv)<4:
 infile = sys.argv[1]
 bw_file_path = sys.argv[2]
 outfile = sys.argv[3]
-
-rpathbase = bw_file_path + "PhyloCSF"
 
 regs = []
 chrom={}
@@ -50,7 +49,7 @@ for line in open(infile):
 
 scores = {}
 
-rpathbase =
+rpathbase = os.path.join(bw_file_path,"PhyloCSF")
 
 for rf in ["+0","+1","+2","-0","-1","-2"]:
     sys.stderr.write("Searching PhyloCSF reading frame " + rf + "\n")
