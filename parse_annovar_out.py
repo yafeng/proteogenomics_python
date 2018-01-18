@@ -6,7 +6,7 @@ if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of co
     print("Warning! wrong command, please read the mannual in Readme.txt.")
     print("Example: python prepare_annovar_input.py --input example_vardb_6rf_novpep.hg19cor.txt --output example_novpep_avinput.txt")
 else:
-    options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','output='])
+    options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','output=', 'annovar_out='])
     for opt, arg in options:
         if opt == '--annovar_out': annovar_file=arg
         if opt == '--input': input_file=arg
