@@ -25,17 +25,18 @@ for record in handle:
 
 input1=open(input_file,"r") # novpep tab table
 
-header= input1.strip().split("\t")
+header= input1.readline().strip().split("\t")
 header += ["from.SNPdb"]
 
 output=open(output_file,"w") # output table
+output.write('\t'.join(header) + '\n')
 
 print ("searching SNPdb to see if any novel peptides derived from nsSNPs")
 for line in input1:
     row=line.strip().split("\t")
     pep = row[0]
     
-    query_output = ""
+    query_output = "NO SNP-DB MATCH"
     for pro in db_dic:
         if pep in db_dic[pro]:
             query_output=pro

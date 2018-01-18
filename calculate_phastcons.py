@@ -8,7 +8,7 @@ import sys
 
 
 if len(sys.argv)<4:
-    sys.exit("USAGE: python " + sys.argv[0] + " <BED or GFF file with regions> <output file>")
+    sys.exit("USAGE: python " + sys.argv[0] + "<GFF file with regions> <BigWig file> <output file>")
 
 
 # Need to download hg19.100way.phastCons.bw first, use the command:
@@ -21,6 +21,7 @@ outfile = sys.argv[3]
 
 bw = pw.open(bw_file)
 oF = open(outfile, "w")
+pep_dic = {}
 
 if not infile.endswith("gff") and not infile.endswith("gff3"):
     sys.exit("The region file needs to be a GFF(3) file!")
