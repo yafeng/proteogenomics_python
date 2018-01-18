@@ -12,13 +12,14 @@ else:
         elif opt == '--nsSNPdb': snp_db=arg
         elif opt == '--output': output_file=arg
         else:
-            print ("Warning! Command-line argument: %s not recognized. Exiting...") % opt; sys.exit()
-
+            print ("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
 handle= SeqIO.parse(snp_db,"fasta")
 db_dic={}
+
 for record in handle:
-    db_dic[record.description] = str(record.seq)
+    if "rs" in record.description: # check if it has rs id in entry's description
+        db_dic[record.description] = str(record.seq)
 
 input1=open(input_file,"r") # novpep tab table
 

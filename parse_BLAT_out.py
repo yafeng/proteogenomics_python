@@ -49,11 +49,12 @@ output.write(input2.readline())
 for line in input2:
     row=line.strip().split("\t")
     pep=row[0]
+    blat_result = "No match found by BLAT"
 
     if pep in pep_multi_loci:
-        print("multimapped peptide",line)
+        blat_result = pep_multi_loci[pep]
     elif pep in pep_unique_loci:
-        output.write("\t".join(row)+"\n")
+        blat_result = pep_unique_loci[pep]
     else:
         output.write("\t".join(row)+"\n")
 
