@@ -55,7 +55,7 @@ for line in input2:
     elif pep in pep_unique_loci:
         output.write("\t".join(row)+"\n")
     else:
-        output.write("\t".join(row)+"\n")]
+        output.write("\t".join(row)+"\n")
 
 input.close()
 input2.close()
