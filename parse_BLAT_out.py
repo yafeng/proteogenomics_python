@@ -1,6 +1,6 @@
 import sys
 
-input=open(sys.argv[1],"r")  # blat output
+input1=open(sys.argv[1],"r")  # blat output plx
 input2=open(sys.argv[2],"r") # novel peptide gene cor file
 
 output=open(sys.argv[3],"w")
@@ -12,7 +12,7 @@ pep_multi_loci={}
 pep_unique_loci={}
 
 n=0
-for line in input:
+for line in input1:
     row=line.strip().split("\t")
     n+=1
     if row[0].isdigit():
@@ -46,22 +46,25 @@ print("blat multi map peptides"),len(pep_multi_loci)
 print("blat unique map peptides"),len(pep_unique_loci)
 
 header = input2.readline().strip().split("\t")
-header += ["blat_result"]
+header += ["blat_category","blat_result"]
 output.write("\t".join(header)+"\n")
 
 for line in input2:
     row=line.strip().split("\t")
     pep=row[0]
+    blat_category = "unique location"
     blat_result = "No match found by BLAT"
 
     if pep in pep_multi_loci:
+        blat_category = "multiple locations"
         blat_result = pep_multi_loci[pep]
     elif pep in pep_unique_loci:
         blat_result = pep_unique_loci[pep]
     
+    row.append(blat_category)
     row.append(blat_result)
     output.write("\t".join(row)+"\n")
 
-input.close()
+input1.close()
 input2.close()
 output.close()

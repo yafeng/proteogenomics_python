@@ -48,8 +48,8 @@ for line in input2:
     mismatch=row[9]
     gap=row[12]
     alignseq=row[-3]
-    category=""
-    single_sub_pos=" "
+    category="NA"
+    single_sub_pos="NA"
     if sstart>3:
         Nterm_seq=sseq[sstart-4:sstart+2] #check up 3 amino acid before N-term of this peptide
     else:
@@ -62,30 +62,30 @@ for line in input2:
 
     if alignlen==peplen:
         if float(ident)==100:
-            category="map to known protein"
+            category="match to known protein"
         
         elif int(gap)==0 and int(mismatch)==1:
-            category="map to known protein with 1 mismatch"
+            category="map to known protein with 1 aa mismatch"
             for i in range(peplen):
                 if qid[i]!=alignseq[i]:
                     single_sub_pos=str(i+1)
 
         elif int(gap)==1 and int(mismatch)==0:
-            category="map to known protein with 1 insertion"
+            category="map to known protein with 1 aa insertion"
         else:
-            category="novelpep (map to known protein with more than 2 mismatch)"
+            category="novelpep (map to known protein with more than 2 mismatched aa)"
     elif peplen-alignlen==1 and float(ident)==100:
-        category="map to known protein with 1 deletion"
+        category="map to known protein with 1 aa deletion"
 
     else:
-        category="novelpep (map to known protein with more than 2 mismatch)"
+        category="novelpep (map to known protein with more than 2 mismatched aa)"
 
     blastout[qid]=[category,sid,ident,peplen,single_sub_pos,Nterm_seq,alignseq,Cterm_seq,alignlen,mismatch,gap]
 
 
 header=input3.readline().strip().split("\t")
 
-header=header+["category","matched protein","identity","peplen","single_sub_pos","Nterm-seq(3aa)","aligned_seq","Cterm-seq(3aa)","alignlen","mismatch","gap"]
+header=header+["category","matched_protein","identity","peplen","sub_pos","Nterm-seq(3aa)","aligned_seq","Cterm-seq(3aa)","alignlen","mismatch","gap"]
 output.write("\t".join(header)+"\n")
 
 for line in input3:
