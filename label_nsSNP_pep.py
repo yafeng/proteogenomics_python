@@ -1,6 +1,8 @@
 import sys
 import os
 import getopt
+from Bio import SeqIO
+
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print ("Warning! wrong command, please read the mannual in Readme.txt.")
