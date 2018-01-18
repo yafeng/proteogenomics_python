@@ -18,7 +18,7 @@ if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of co
     print("Warning! wrong command, please read the mannual in Readme.txt.")
     print("Example: python group_novpepToLoci.py --input novpep.table.txt --output novpep.table.Loci.txt --distance 10kb")
 else:
-    options, remainder = getopt.getopt(sys.argv[1:],'', ['input_psm=','output='])
+    options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','output=','distance='])
     for opt, arg in options:
         if opt == '--input': input_file=arg
         elif opt == '--output': output_file=arg
