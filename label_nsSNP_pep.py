@@ -6,9 +6,9 @@ if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of co
     print ("Warning! wrong command, please read the mannual in Readme.txt.")
     print ("Example: python lab_sub_pos.py --input_psm PSM_filename --output output_filename")
 else:
-    options, remainder = getopt.getopt(sys.argv[1:],'', ['input_psm=','nsSNPdb=','output='])
+    options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','nsSNPdb=','output='])
     for opt, arg in options:
-        if opt == '--input_psm': input_file=arg
+        if opt == '--input': input_file=arg
         elif opt == '--nsSNPdb': snp_db=arg
         elif opt == '--output': output_file=arg
         else:
