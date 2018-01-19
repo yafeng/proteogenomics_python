@@ -71,6 +71,6 @@ output.write("\t".join(["Peptide","chromosome","start","end","+0","+1","+2","-0"
 for r in regs:
     scoreList = [scores["+0"][r], scores["+1"][r], scores["+2"][r], scores["-0"][r], scores["-1"][r], scores["-2"][r]]
     coords = [chrom[r], str(starts[r]), str(ends[r])]
-    row = [peptide[r]]+coords+scoreList+ [predict_coding(scoreList)]
-    print("\t".join(row)+"\n")
+    row = [peptide[r]]+coords+ ['NA' if x is None else str(x) for x in scoreList] + [predict_coding(scoreList)]
+    output.write('\t'.join(row) + '\n')
 
