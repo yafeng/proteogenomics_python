@@ -47,9 +47,9 @@ for line in open(infile):
         pep_dic[pept]=[max_val, mean_val]
     else:
         pep_dic[pept][0]=max(max_val,pep_dic[pept][0])
-        pep_dic[pept][1]=np.mean(mean_val,pep_dic[pept][1])
+        pep_dic[pept][1]=np.mean([mean_val,pep_dic[pept][1]])
 
 for pept in pep_dic:
-    oF.write("%s\t%f\t%f\n" % (pept,pep_dic[pep][0],pep_dic[pep][1]))
+    oF.write("%s\t%f\t%f\n" % (pept,pep_dic[pept][0],pep_dic[pept][1]))
 
 oF.close()
