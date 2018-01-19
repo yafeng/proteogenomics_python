@@ -177,8 +177,8 @@ bam_files = sorted(list(aln_table.keys()))
 output.write('sequence\t')
 for i in range(0,len(bam_files)):
     output.write(bam_files[i].split('.')[0].split('/')[-1])
-        if (i < (len(bam_files)-1)): output.write('\t')
-        else: output.write('\n')
+    if (i < (len(bam_files)-1)): output.write('\t')
+    else: output.write('\n')
 
 # And the counts.
 for pep in sorted(aln_table[bam_files[0]].keys()):
