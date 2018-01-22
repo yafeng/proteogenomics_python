@@ -13,7 +13,7 @@ idx2 = cols.index("sub_pos")
 
 for line in input1:
     row = line.strip().split("\t")
-    cat = row[idx]
+    cat = row[idx1]
     pep = row[0]
     sub_pos = row[idx2]
     if cat=="map to known protein with 1 aa mismatch":
@@ -26,9 +26,9 @@ header += ["sub_pos"]
 
 output.write("\t".join(header)+"\n")
 
+idx = header.index('Peptide')
 for line in input2:
     row = line.strip().split("\t")
-    idx = row.index("Peptide")
     seq = re.sub('[^a-zA-Z]','',row[idx])
     if seq in novpep_1mismatch:
         row.append(novpep_1mismatch[seq])
