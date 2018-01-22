@@ -30,7 +30,7 @@ for record in input1:
 print(len(seqdb))
 
 input2= open(blastp_file,"r") # blastp output
-input3= open(input_file,"r") # novel peptide cor txt
+input3= open(input_file,"r") # novel peptide tab txt
 output= open(output_file,"w")
 
 blastout={}
@@ -85,7 +85,7 @@ for line in input2:
 
 header=input3.readline().strip().split("\t")
 
-header=header+["category","matched_protein","identity","peplen","sub_pos","Nterm-seq(3aa)","aligned_seq","Cterm-seq(3aa)","alignlen","mismatch","gap"]
+header=header+["blastp_category","blastp_match","identity","peplen","sub_pos","Nterm-seq(3aa)","aligned_seq","Cterm-seq(3aa)","alignlen","mismatch","gap"]
 output.write("\t".join(header)+"\n")
 
 for line in input3:
@@ -104,8 +104,3 @@ input1.close()
 input2.close()
 input3.close()
 output.close()
-
-
-
-
-

@@ -6,7 +6,7 @@ from Bio import SeqIO
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print ("Warning! wrong command, please read the mannual in Readme.txt.")
-    print ("Example: python lab_sub_pos.py --input_psm PSM_filename --output output_filename")
+    print ("Example: python lab_sub_pos.py --input pep.tab.txt --nsSNPdb nsSNP_pep.fa --output output_filename")
 else:
     options, remainder = getopt.getopt(sys.argv[1:],'', ['input=','nsSNPdb=','output='])
     for opt, arg in options:
@@ -36,7 +36,7 @@ for line in input1:
     row=line.strip().split("\t")
     pep = row[0]
     
-    query_output = "NO SNP-DB MATCH"
+    query_output = "No match in SNP-DB"
     for pro in db_dic:
         if pep in db_dic[pro]:
             query_output=pro

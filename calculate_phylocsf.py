@@ -67,7 +67,7 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
 
 
 output = open(outfile,"w")
-output.write("\t".join(["Peptide","chromosome","start","end","+0","+1","+2","-0","-1","-2","overall_prediction"])+"\n")
+output.write("\t".join(["Peptide","chromosome","start","end","+0","+1","+2","-0","-1","-2","PhyloCSF_prediction"])+"\n")
 for r in regs:
     scoreList = [scores["+0"][r], scores["+1"][r], scores["+2"][r], scores["-0"][r], scores["-1"][r], scores["-2"][r]]
     coords = [chrom[r], str(starts[r]), str(ends[r])]

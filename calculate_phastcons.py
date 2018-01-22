@@ -21,6 +21,10 @@ outfile = sys.argv[3]
 
 bw = pw.open(bw_file)
 oF = open(outfile, "w")
+
+header = ["Peptide","max_score","mean_score"]
+oF.write("\t".join(header)+"\n")
+
 pep_dic = {}
 
 if not infile.endswith("gff") and not infile.endswith("gff3"):

@@ -16,7 +16,7 @@ else:
 
 
 input1=open(annovar_file,"r") # annovar output
-input2=open(input_file,"r") # novel pep cor blastout
+input2=open(input_file,"r") # novel pep table
 output=open(output_file,"w")
 
 category={}
