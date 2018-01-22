@@ -3,32 +3,35 @@ library(RColorBrewer)
 
 setwd("") # set the folder where the input file is
 
-# the input file should have four columns: "SNP","CHR","BP","ProbabilityScore"
-df=read.table("ALL_hyperdiplo_lund_vardb_6rf_novpep.manplot.input.txt",header=T,sep="\t")
-head(df)
+# the input file should have the three columns: "chromosome","start","ProbabilityScore"
+df=read.table("input.peptide.txt",header=T,sep="\t")
+colnames(df) = c("CHR","BP","Prob.score")
+# add additional column SNP, set it as row numbers
+df$SNP  = rownames(df)
+# reorder the data frame
+df = df[,c(4,1,2,3)]
 
 pal <- brewer.pal(7,"Dark2")
-pal
-max(-log10(df$minPEP))
-pdf("ALL_vardb_6rf_471novpeps_manplot.v2.pdf",width=10,height=7,useDingbats = FALSE)
+pdf("novpeps_manplot.all.pdf",width=10,height=7,useDingbats = FALSE)
 manhattan(df,col=pal,
           suggestiveline = F,
           genomewideline = F,
-          p = "minPEP", # the column name of probability score
-          chrlabs=c(1:22, "X"),ylim=c(0,max(-log10(df$minPEP))+2),
-          main="ALL dataset novel peptides (N=471)",
-          ylab="-log10(PEP)")
+          p = "Prob.score", # the column name of probability score
+          chrlabs=df$CHR,ylim=c(0,max(-log10(df$Prob.score))+2),
+          main=sprintf("novel peptides (N=%d)" % nrow(df)),
+          ylab=("-log10(score)")
+
 dev.off()
 
-pdf("ALL_novpep_manplot.23chrs.pdf",width=10,height=7,useDingbats = FALSE)
-par(mfrow=c(2,3))
-for (i in c(1:23)){
-  df.chr=df[df$CHR==i,]
+pdf("novpeps_manplot.individual.chromosomes.pdf",width=10,height=7,useDingbats = FALSE)
+par(mfrow=c(2,2))
+for (chr in df$CHR){
+  df.chr = df[df$CHR==chr,]
   manhattan(df.chr,col="black",
             suggestiveline = F,
             genomewideline = F,
-            p = "minPEP",
-            chrlabs=c(i),ylim=c(0,max(-log10(df.chr$minPEP))+2),
+            p = "Prob.score",
+            chrlabs=chr,ylim=c(0,max(-log10(df.chr$Prob.score))+2),
             ylab="-log10(PEP)")
 }
 dev.off()
