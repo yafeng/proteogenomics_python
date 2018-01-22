@@ -45,15 +45,15 @@ for pep in pep_map:
 print("blat multi map peptides",len(pep_multi_loci))
 print("blat unique map peptides",len(pep_unique_loci))
 
-header = input2.readline().strip().split("\t")
-header += ["blat_category","blat_match"]
+input2.readline()
+header = ["Peptide","blat_category","blat_match"]
 output.write("\t".join(header)+"\n")
 
 for line in input2:
     row=line.strip().split("\t")
     pep=row[0]
     blat_category = "unique location"
-    blat_result = "No match found by BLAT"
+    blat_result = ["No match found by BLAT"]
 
     if pep in pep_multi_loci:
         blat_category = "multiple locations"
@@ -61,10 +61,8 @@ for line in input2:
     elif pep in pep_unique_loci:
         blat_result = pep_unique_loci[pep]
     blat_result = ';'.join(blat_result)
-    
-    row.append(blat_category)
-    row.append(blat_result)
-    output.write("\t".join(row)+"\n")
+
+    output.write("\t".join([pep,blat_category,blat_result])+"\n")
 
 input1.close()
 input2.close()

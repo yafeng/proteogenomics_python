@@ -1,5 +1,5 @@
 '''
-    the script is written by Mikael Hussius @ SciLifeLab, https://github.com/hussius/gff-phylocsf-human
+    the script is modified from Mikael Hussius @ SciLifeLab, https://github.com/hussius/gff-phylocsf-human
     
     download the following bigwig files first
     # wget https://data.broadinstitute.org/compbio1/PhyloCSFtracks/hg19/latest/PhyloCSF+0.bw
@@ -67,7 +67,7 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
 
 
 output = open(outfile,"w")
-output.write("\t".join(["Peptide","chromosome","start","end","+0","+1","+2","-0","-1","-2","PhyloCSF_prediction"])+"\n")
+output.write("\t".join(["Peptide","chromosome","start","end","PhyloCSF+0.score","PhyloCSF+1.score","PhyloCSF+2.score","PhyloCSF-0.score","PhyloCSF-1.score","PhyloCSF-2.score","PhyloCSF_prediction"])+"\n")
 for r in regs:
     scoreList = [scores["+0"][r], scores["+1"][r], scores["+2"][r], scores["-0"][r], scores["-1"][r], scores["-2"][r]]
     coords = [chrom[r], str(starts[r]), str(ends[r])]

@@ -35,18 +35,20 @@ while True:
 
 print("%d peptides returned with anovar annotation" % len(category))
 
-header=input2.readline().strip().split("\t")
-header+=["anovar_category","associated_gene"]
+input2.readline()
+header=["Peptide","anovar_category","associated_gene"]
 output.write("\t".join(header)+"\n")
 for line in input2:
     row=line.strip().split("\t")
     pep=row[0]
+    
+    anovar_cat = "NA"
+    associated_gene="NA"
     if pep in category:
-        fun=category[pep]
-        row+=fun
-        output.write("\t".join(row)+"\n")
-    else:
-        output.write(line)
+        anovar_cat=category[pep][0]
+        associated_gene=category[pep][1]
+
+    output.write("\t".join([pep,anovar_cat,associated_gene])+"\n")
 
 input1.close()
 input2.close()
