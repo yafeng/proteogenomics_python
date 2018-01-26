@@ -96,7 +96,7 @@ def parse_gtf(infile):
 def get_id(s):
     acclist=s.split(";")
     acc = acclist[0]
-    prot_ID="_".join(acc.split("_")[:-1])
+    prot_ID=acc.split("(")[0]
     trans_ID = ""
     if "PGOHUM_" in prot_ID:
         trans_ID=prot_ID.split("_")[1]

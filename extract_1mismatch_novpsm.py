@@ -8,7 +8,7 @@ output = open(sys.argv[3],"w")
 
 novpep_1mismatch = {}
 cols = input1.readline().split("\t")
-idx1 = cols.index("category")
+idx1 = cols.index("blastp_category")
 idx2 = cols.index("sub_pos")
 
 for line in input1:
