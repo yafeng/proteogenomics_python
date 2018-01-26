@@ -141,8 +141,15 @@ print("reading GTF input file")
 feature_dic=parse_gtf(gtf_file)
 print(("number of unique transcripts in GTF file",len(feature_dic)))
 
-seq_dic = SeqIO.index(db_file,'fasta')
-print(("number of unique protein sequences in fasta file",len(seq_dic)))
+seqdb = SeqIO.parse(db_file,'fasta')
+seq_dic={}
+for record in seqdb:
+    if record.id[:6] in ["COSMIC","CanPro"]:
+        continue
+    else:
+        seq_dic[record.id]=str(record.seq)
+
+print(("number of lncRNA & pseudogene sequences in fasta file",len(seq_dic)))
 
 input=open(input_file,'r') # peptide table with two columns, peptide sequence in first column, protein ID in second column
 
@@ -200,7 +207,7 @@ for line in input:
         print(("KeyError",transcript_id,"doesn't exit in GTF input file"))
         continue;
     
-    aa_seq=str(seq_dic[protein_id].seq)
+    aa_seq=seq_dic[protein_id]
     pep_index=aa_seq.index(peptide)
     
     pep_trans_start=3*pep_index+1
