@@ -61,7 +61,10 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
         count += 1
         if(count % 50 ==0): sys.stderr.write('\tProcessed ' + str(count) + " peptides out of " + str(len(regs)) + "\n")
         sys.stderr.flush()
-        score = bw.stats(chrom[r], starts[r], ends[r])[0]
+        try:
+            score = bw.stats(chrom[r], starts[r], ends[r])[0]
+        except RuntimeError:
+            pass
         frame_score[r] = score
         scores[rf] = frame_score
 
