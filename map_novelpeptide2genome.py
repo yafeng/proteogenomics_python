@@ -95,20 +95,17 @@ def parse_gtf(infile):
 
 def get_id(s):
     acclist=s.split(";")
-    prot_ID=""
-    trans_ID=""
-    for aa in acclist:
-        prot_ID="_".join(aa.split("_")[:-1])
-        if "PGOHUM_" in aa:
-            trans_ID=aa.split("_")[1]
-            break
-        elif "PGOHUM00000" in aa:
-            trans_ID=aa.split("_")[0]
-            break
-        elif "lnc-" in aa:
-            trans_ID=aa.split("_")[0]
-        elif "lncRNA" in aa:
-            trans_ID=aa.split("_")[1]
+    acc = acclist[0]
+    prot_ID="_".join(acc.split("_")[:-1])
+    trans_ID = ""
+    if "PGOHUM_" in prot_ID:
+        trans_ID=prot_ID.split("_")[1]
+    elif "PGOHUM00000" in prot_ID:
+        trans_ID=prot_ID.split("_")[0]
+    elif "lnc-" in prot_ID:
+        trans_ID=prot_ID.split("_")[0]
+    elif "lncRNA" in prot_ID:
+        trans_ID=prot_ID.split("_")[1]
 
     return prot_ID,trans_ID
 
