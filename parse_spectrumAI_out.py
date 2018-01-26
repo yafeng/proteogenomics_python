@@ -20,11 +20,18 @@ else:
 input1=open(input1_file,"r")  ## SpectrumAI output
 input2=open(input2_file,"r")  ## novelpep table, peptide sequence is in first column
 output=open(output_file,"w")
+header2=input2.readline().strip().split("\t")
+header2 += ["SpectrumAI_result"]
+output.write("\t".join(header2)+"\n")
 
 header1=input1.readline().split("\t")
 index1=header1.index("Peptide")
-index2=header1.index("flanking_ions_support")
-index3=header1.index("status")
+try:
+    index2=header1.index("flanking_ions_support")
+    index3=header1.index("status")
+except IndexError:
+    print ("the SpecturmAI output is empty")
+    sys.exit()
 
 specAI_result={}  # found with b,y ion support
 
@@ -37,10 +44,6 @@ for line in input1:
     except IndexError:
         print(("the line doesn't have the right number of columns"), line)
 
-header2=input2.readline().strip().split("\t")
-header2 += ["SpectrumAI_result"]
-
-output.write("\t".join(header2)+"\n")
 
 n1=0
 n2=0
