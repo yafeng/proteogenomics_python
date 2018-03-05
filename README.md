@@ -1,5 +1,7 @@
 # proteogenomics_python
-python scripts for proteogenomics analysis. The whole workflow has been integrated into [nextflow](https://github.com/lehtiolab/proteogenomics-analysis-workflow).
+python scripts for proteogenomics analysis.
+
+The whole workflow has been integrated into [nextflow](https://github.com/lehtiolab/proteogenomics-analysis-workflow).
 
 
 map_peptide2genome.py is a python script to map known peptides back to genome.You need three input files:  
