@@ -29,7 +29,7 @@ index1=header1.index("Peptide")
 try:
     index2=header1.index("flanking_ions_support")
     index3=header1.index("status")
-except IndexError:
+except ValueError:
     print ("the SpecturmAI output is empty")
     sys.exit()
 
