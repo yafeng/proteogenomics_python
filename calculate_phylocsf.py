@@ -85,5 +85,5 @@ for r in regs:
 
 for seq in pep_scores:
     scoreList = pep_scores[seq]
-    row = ['NA' if x is None else str(x) for x in scoreList] + [predict_coding(scoreList)]
+    row = [seq]+['NA' if x is None else str(x) for x in scoreList] + [predict_coding(scoreList)]
     output.write('\t'.join(row) + '\n')
