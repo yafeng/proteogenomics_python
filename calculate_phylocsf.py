@@ -13,6 +13,7 @@
 import sys
 import os
 import pyBigWig as pw
+import numpy as np
 
 def predict_coding(vec):
     coding = "no"
@@ -71,9 +72,18 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
 
 output = open(outfile,"w")
 output.write("\t".join(["Peptide","chromosome","start","end","PhyloCSF+0.score","PhyloCSF+1.score","PhyloCSF+2.score","PhyloCSF-0.score","PhyloCSF-1.score","PhyloCSF-2.score","PhyloCSF_prediction"])+"\n")
+
+pep_scores={}
+
 for r in regs:
     scoreList = [scores["+0"][r], scores["+1"][r], scores["+2"][r], scores["-0"][r], scores["-1"][r], scores["-2"][r]]
-    coords = [chrom[r], str(starts[r]), str(ends[r])]
-    row = [peptide[r]]+coords+ ['NA' if x is None else str(x) for x in scoreList] + [predict_coding(scoreList)]
-    output.write('\t'.join(row) + '\n')
+    seq = peptide[r]
+    if seq not in pep_scores:
+        pep_scores[seq]=scoreList
+    else: # this is to consider splice junction peptides which have two regions separated in gff file, we take mean phylocsf score of two regions
+        pep_scores[seq] = [(x+y)/2 for x,y in zip(scoreList,pep_scores[seq])]
 
+for seq in pep_scores:
+    scoreList = pep_scores[seq]
+    row = ['NA' if x is None else str(x) for x in scoreList] + [predict_coding(scoreList)]
+    output.write('\t'.join(row) + '\n')
