@@ -68,6 +68,7 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
             pass
         frame_score[r] = score
         scores[rf] = frame_score
+    bw.close()
 
 
 output = open(outfile,"w")
