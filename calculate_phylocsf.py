@@ -84,8 +84,10 @@ for r in regs:
     else: # this is to consider splice junction peptides which have two regions separated in gff file, we take mean phylocsf score of two regions
         for i in range(0,len(scoreList)):
             value = scoreList[i]
-            if value is None:
+            if value is None and pep_scores[seq][i] is None:
                 continue
+            elif None in [value, pep_scores[seq][i]]:
+                pep_scores[seq][i] = value if value else pep_scores[seq][i]
             else:
                 pep_scores[seq][i] = (pep_scores[seq][i] + value)/2
 
