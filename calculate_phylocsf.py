@@ -72,7 +72,7 @@ for rf in ["+0","+1","+2","-0","-1","-2"]:
 
 
 output = open(outfile,"w")
-output.write("\t".join(["Peptide","chromosome","start","end","PhyloCSF+0.score","PhyloCSF+1.score","PhyloCSF+2.score","PhyloCSF-0.score","PhyloCSF-1.score","PhyloCSF-2.score","PhyloCSF_prediction"])+"\n")
+output.write("\t".join(["Peptide","PhyloCSF+0.score","PhyloCSF+1.score","PhyloCSF+2.score","PhyloCSF-0.score","PhyloCSF-1.score","PhyloCSF-2.score","PhyloCSF_prediction"])+"\n")
 
 pep_scores={}
 
@@ -82,7 +82,12 @@ for r in regs:
     if seq not in pep_scores:
         pep_scores[seq]=scoreList
     else: # this is to consider splice junction peptides which have two regions separated in gff file, we take mean phylocsf score of two regions
-        pep_scores[seq] = [(x+y)/2 for x,y in zip(scoreList,pep_scores[seq])]
+        for i in range(0,len(scoreList)):
+            value = scoreList[i]
+            if value is None:
+                continue
+            else:
+                pep_scores[seq][i] = (pep_scores[seq][i] + value)/2
 
 for seq in pep_scores:
     scoreList = pep_scores[seq]
