@@ -160,7 +160,7 @@ header=input.readline().split("\t")
 pep_col = header.index("Peptide")
 pro_col = header.index("Protein")
 
-newheader=["Peptide","Protein","chr","start","end","strand"]
+newheader=["Peptide","Mod.peptide","Protein","chr","start","end","strand"]
 tab_output.write("\t".join(newheader) + '\n')
 
 non_mapped_pep=0
@@ -168,7 +168,8 @@ novpep_dic={}
 
 for line in input:
     row=line.strip().split("\t")
-    peptide=re.sub("[\W\d]","",row[pep_col].strip()).upper()
+    modpep = row[pep_col].strip()
+    peptide=re.sub("[\W\d]","", modpep).upper()
     proteins = row[pro_col]
     
     if peptide not in novpep_dic:
@@ -189,7 +190,7 @@ for line in input:
         gff_output.write("\t".join(map(str,gff_format_line1))+"\n")
         gff_output.write("\t".join(map(str,gff_format_line2))+"\n")
         
-        newrow=[peptide,proteins,pep_chr,pep_chr_start,pep_chr_end,pep_strand]
+        newrow=[peptide,modpep,proteins,pep_chr,pep_chr_start,pep_chr_end,pep_strand]
         tab_output.write("\t".join(newrow)+"\n")
     
         continue;
@@ -222,7 +223,7 @@ for line in input:
     #print pep_trans_start,pep_trans_end
     pep_chr,pep_strand,pep_chr_start,pep_chr_end,pep_start_exon,pep_end_exon=get_pep_cor(exons,pep_trans_start,pep_trans_end)
 
-    newrow=[peptide,proteins]+list(map(str,[pep_chr,pep_chr_start,pep_chr_end,pep_strand]))
+    newrow=[peptide,modpep,proteins]+list(map(str,[pep_chr,pep_chr_start,pep_chr_end,pep_strand]))
     tab_output.write("\t".join(newrow)+"\n")
 
     bed_output.write("%s\t%s\t%s\tA\t-\tComments:Seq=%s\n" % (pep_chr,pep_chr_start,pep_chr_start,peptide))
