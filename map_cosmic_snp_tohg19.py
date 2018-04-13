@@ -19,7 +19,7 @@ else:
 input=open(input_file,"r")
 output=open(output_file,"w")
 
-cosmic_input=open(cosmic_file,"r") # Download v71 at \http://cancer.sanger.ac.uk/cosmic/download
+cosmic_input=open(cosmic_file,"r") # Download at \http://cancer.sanger.ac.uk/cosmic/download
 dbsnp_input=open(dbsnp_file,"r") # Download at UCSC table browser, select Variation as group, and snp142CodingDbSnp as table
 
 header = ["#CHROM","POS","ID","INFO"]
@@ -36,10 +36,10 @@ for line in cosmic_input:
     else:
         gene=row[0]
         mRNA=row[1]
-        dna_mut=row[13]
-        aa_mut=row[14]
-        chr_position=row[17]
-        chr_strand=row[18]
+        dna_mut=row[17] # correspond to the column "Mutation CDS" in the cosmic db input
+        aa_mut=row[18] # correspond to the column "Mutation AA" in the cosmic db input
+        chr_position=row[23] # correspond to the column "Mutation genome position" in the cosmic db input
+        chr_strand=row[24] # correspond to the column "Mutation strand" in the cosmic db input
         id="COSMIC:%s:%s:%s:%s" % (gene,mRNA,dna_mut,aa_mut)
         if id not in cosmic_dic:
             cosmic_dic[id]=[chr_position,chr_strand,dna_mut,aa_mut]
@@ -126,7 +126,7 @@ for line in input:
                 except ValueError:
                     print ("ValueError",cosmic_id,chr_position)
         else:
-            print ("protein id %s can't be mapped" % proid)
+            print ("protein id %s are not CanProVar or COSMIC entries, skipped" % proid)
 
 cosmic_input.close()
 dbsnp_input.close()
