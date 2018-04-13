@@ -31,19 +31,22 @@ print ("reading cosmic database")
 cosmic_input.readline()
 for line in cosmic_input:
     row=line.strip().split("\t")
-    if "coding silent" in row[15]:
+    if "coding silent" in row[19]: # correspond to the column "Mutation Description" in the cosmic_input
+        continue;
+    elif row[19]=="Unknown":
+        continue;
+    elif row[19]=="Whole gene deletion":
         continue;
     else:
         gene=row[0]
         mRNA=row[1]
-        dna_mut=row[17] # correspond to the column "Mutation CDS" in the cosmic db input
-        aa_mut=row[18] # correspond to the column "Mutation AA" in the cosmic db input
-        chr_position=row[23] # correspond to the column "Mutation genome position" in the cosmic db input
-        chr_strand=row[24] # correspond to the column "Mutation strand" in the cosmic db input
+        dna_mut=row[17] # correspond to the column "Mutation CDS" in the cosmic_input
+        aa_mut=row[18] # correspond to the column "Mutation AA" in the cosmic_input
+        chr_position=row[23] # correspond to the column "Mutation genome position" in the cosmic_input
+        chr_strand=row[24] # correspond to the column "Mutation strand" in the cosmic_input
         id="COSMIC:%s:%s:%s:%s" % (gene,mRNA,dna_mut,aa_mut)
         if id not in cosmic_dic:
             cosmic_dic[id]=[chr_position,chr_strand,dna_mut,aa_mut]
-
 
 print ("reading cosmic database finished")
 
