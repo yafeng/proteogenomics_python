@@ -28,22 +28,30 @@ output.write("\t".join(header)+"\n")
 cosmic_dic={}
 
 print ("reading cosmic database")
-cosmic_input.readline()
+header = cosmic_input.readline().strip().split('\t')
+geneix = header.index('Gene name')
+mrnaix = header.index('Accession Number')
+mutdesc = header.index('Mutation Description')
+mutcds = header.index('Mutation CDS')
+mutaa = header.index('Mutation AA')
+mutgenpos = [ix for ix, x in enumerate(header) if re.match('Mutation .*genome position', x)][0]
+mutstr = [ix for ix, x in enumerate(header) if re.match('Mutation .*strand', x)][0]
+
 for line in cosmic_input:
     row=line.strip().split("\t")
-    if "coding silent" in row[19]: # correspond to the column "Mutation Description" in the cosmic_input
+    if "coding silent" in row[mutdesc]: # correspond to the column "Mutation Description" in the cosmic_input
         continue;
-    elif row[19]=="Unknown":
+    elif row[mutdesc]=="Unknown":
         continue;
-    elif row[19]=="Whole gene deletion":
+    elif row[mutdesc]=="Whole gene deletion":
         continue;
     else:
-        gene=row[0]
-        mRNA=row[1]
-        dna_mut=row[17] # correspond to the column "Mutation CDS" in the cosmic_input
-        aa_mut=row[18] # correspond to the column "Mutation AA" in the cosmic_input
-        chr_position=row[23] # correspond to the column "Mutation genome position" in the cosmic_input
-        chr_strand=row[24] # correspond to the column "Mutation strand" in the cosmic_input
+        gene=row[geneix]
+        mRNA=row[mrnaix]
+        dna_mut=row[mutcds] # correspond to the column "Mutation CDS" in the cosmic_input
+        aa_mut=row[mutaa] # correspond to the column "Mutation AA" in the cosmic_input
+        chr_position=row[mutgenpos] # correspond to the column "Mutation genome position" in the cosmic_input
+        chr_strand=row[mutstr] # correspond to the column "Mutation strand" in the cosmic_input
         id="COSMIC:%s:%s:%s:%s" % (gene,mRNA,dna_mut,aa_mut)
         if id not in cosmic_dic:
             cosmic_dic[id]=[chr_position,chr_strand,dna_mut,aa_mut]
