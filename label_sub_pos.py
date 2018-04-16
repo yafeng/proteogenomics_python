@@ -11,10 +11,11 @@ if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of co
     print("Warning! wrong command, please read the mannual in Readme.txt.")
     print("Example: python lab_sub_pos.py --input_psm PSM_filename --output output_filename")
 else:
-    options, remainder = getopt.getopt(sys.argv[1:],'', ['input_psm=','output='])
+    options, remainder = getopt.getopt(sys.argv[1:],'', ['input_psm=','output=','splitchar='])
     for opt, arg in options:
         if opt == '--input_psm': input_file=arg
         elif opt == '--output': output_file=arg
+        elif opt == '--splitchar': splitchar=arg
         else:
             print("Warning! Command-line argument: %s not recognized. Exiting..." % opt); sys.exit()
 
@@ -46,7 +47,16 @@ for line in input1:
     elif acc[:6]=="COSMIC":
         sub_pos=acc.split(":")[-1]
     else:
-        continue;
+        splitheader = acc.split(splitchar)[-1]
+        if len(splitheader) == 1:
+            continue
+        try:
+            int(splitheader[-1])
+        except:
+            continue
+        else:
+            sub_pos = splitheader[-1]
+            
 
     row.append(sub_pos)
     output.write("\t".join(row)+"\n")
