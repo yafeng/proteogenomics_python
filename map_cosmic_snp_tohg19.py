@@ -113,12 +113,16 @@ for line in input:
             cosmic_id=":".join(acc_list)
             if pep not in output_dic:
                 output_dic[pep]=1
-                chr_position=cosmic_dic[cosmic_id][0]
+                try:
+                    chr_position=cosmic_dic[cosmic_id][0]
+                except KeyError:
+                    print('COSMIC DB and VarDB do not match, skipping {}'.format(cosmic_id))
+                    continue
                 try:
                     index1=chr_position.index(":")
                     index2=chr_position.index("-")
                     chr="chr"+chr_position[:index1].replace("23","X").replace("24","Y") # some of COSMIC entries used chr23 instead of chrX
-                    
+
                     chr_start=chr_position[index1+1:index2]
                     chr_strand=cosmic_dic[cosmic_id][1]
                     #allele=cosmic_dic[cosmic_id][2]
@@ -132,7 +136,7 @@ for line in input:
                     else:
                         entry="%s\t%s\tID=%s\tSequence=%s;SpectrumAI_result=%s\n" % (chr,chr_start,acc,pep,spectrumai_result)
                         output.write(entry)
-                
+
 
                 except ValueError:
                     print ("ValueError",cosmic_id,chr_position)
