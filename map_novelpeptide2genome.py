@@ -179,7 +179,9 @@ for line in input:
         continue;
     
     if "chr" in proteins:
-        cor_list=row[1].split("_")
+        # Only report first protein match coordinates, remove multiple-hits by BLAT later
+        protein = proteins.split(';')[0]
+        cor_list=protein.split("_")
         pep_chr=cor_list[0]
         pep_chr_start=cor_list[1]
         pep_chr_end=cor_list[2]
