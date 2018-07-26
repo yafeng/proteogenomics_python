@@ -87,7 +87,15 @@ The column name of peptide sequence should be "Peptide", otherwise use --peptide
 `python scam_bams.py --input_gff novel_peptides.gff3 --bam_files bam_files_list.txt --output novelpep_readcount.txt `
 
 
+## build mutant protein and peptide sequences DB from COSMIC
 
+```
+sftp 'your_email_address@example.com'@sftp-cancer.sanger.ac.uk
 
+sftp> get cosmic/grch38/cosmic/v85/CosmicMutantExport.tsv.gz
+sftp> get cosmic/grch38/cosmic/v85/All_COSMIC_Genes.fasta.gz
+sftp> exit
 
-
+python convertCOSMIC2_mutant_protein.py All_COSMIC_Genes.fasta CosmicMutantExport.tsv Cosmic_v85_mutant_protein.fasta
+python digest_mutant_protein.py All_COSMIC_Genes.fasta Cosmic_v85_mutant_protein.fasta Cosmic_v85_mutant_peptides.fasta
+```
