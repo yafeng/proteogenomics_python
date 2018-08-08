@@ -52,23 +52,27 @@ scores = {}
 
 rpathbase = os.path.join(bw_file_path,"PhyloCSF")
 
-for rf in ["+0","+1","+2","-0","-1","-2"]:
-    sys.stderr.write("Searching PhyloCSF reading frame " + rf + "\n")
+for rf in ["+0","+1","+2","+3","-0","-1","-2","-3"]:
     rpath = rpathbase + rf + ".bw"
-    bw = pw.open(rpath)
-    frame_score = {}
-    count = 0
-    for r in regs:
-        count += 1
-        if(count % 50 ==0): sys.stderr.write('\tProcessed ' + str(count) + " peptides out of " + str(len(regs)) + "\n")
-        sys.stderr.flush()
-        try:
-            score = bw.stats(chrom[r], starts[r], ends[r])[0]
-        except RuntimeError:
-            pass
-        frame_score[r] = score
-        scores[rf] = frame_score
-    bw.close()
+    if os.path.isfile(rpath):
+        sys.stderr.write("Searching PhyloCSF reading frame " + rf + "\n")
+        bw = pw.open(rpath)
+        frame_score = {}
+        count = 0
+        for r in regs:
+            count += 1
+            if(count % 50 ==0): sys.stderr.write('\tProcessed ' + str(count) + " peptides out of " + str(len(regs)) + "\n")
+            sys.stderr.flush()
+            try:
+                score = bw.stats(chrom[r], starts[r], ends[r])[0]
+            except RuntimeError:
+                pass
+            frame_score[r] = score
+            scores[rf] = frame_score
+        bw.close()
+    else:
+        sys.stderr.write("%s doesn't exist \n" % rpath)
+
 
 
 output = open(outfile,"w")
