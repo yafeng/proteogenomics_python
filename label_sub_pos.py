@@ -6,6 +6,7 @@ import getopt
 ################  Comand-line arguments ################
 peptide_column="Peptide" #default name to look for peptide column in input file
 protein_id_column = "Protein" #default name to look for protein accessions in input file
+splitcar = "_" #default spliting by '_'
 
 if len(sys.argv[1:])<=1:  ### Indicates that there are insufficient number of command-line arguments
     print("Warning! wrong command, please read the mannual in Readme.txt.")
