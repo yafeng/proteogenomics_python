@@ -48,7 +48,7 @@ for line in input1:
     elif acc[:6]=="COSMIC":
         sub_pos=acc.split(":")[-1]
     else:
-        splitheader = acc.split(splitchar)[-1]
+        splitheader = acc.split(splitchar)
         if len(splitheader) == 1:
             continue
         try:
