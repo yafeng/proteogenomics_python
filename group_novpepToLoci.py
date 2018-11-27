@@ -39,10 +39,12 @@ header = input1.readline().strip().split("\t")
 header += ["Loci","Loci_info"]
 output.write("\t".join(header)+"\n")
 
+idx=header.index("chr")
+
 for line in input1: # 4rd to 7th column are chr, start, end, strand
     row=line.strip().split("\t")
-    chr=row[3].replace("chr","").replace("X","23").replace("Y","24")
-    peplist.append(Peptide(chr=chr,start=int(row[4]),end=int(row[5]),strand=row[6],content=row))
+    chr=row[idx].replace("chr","").replace("X","23").replace("Y","24")
+    peplist.append(Peptide(chr=chr,start=int(row[idx+1]),end=int(row[idx+2]),strand=row[idx+3],content=row))
 
 ## sort by chr and then start cor
 peplist.sort(key=lambda x:list(map(int,(x.chr,x.start))))
