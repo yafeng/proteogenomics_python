@@ -34,7 +34,7 @@ input3= open(input_file,"r") # novel peptide tab txt
 output= open(output_file,"w")
 
 blastout={}
-
+hits_dic={}
 for line in input2:
     row=line.strip().split("\t")
     qid=row[0]
@@ -48,6 +48,7 @@ for line in input2:
     mismatch=row[9]
     gap=row[12]
     alignseq=row[-3]
+    evalue=float(row[-2])
     category="NA"
     single_sub_pos="NA"
     if sstart>3:
@@ -79,9 +80,14 @@ for line in input2:
 
     else:
         category="novelpep (map to known protein with more than 2 mismatched aa)"
-
-    blastout[qid]=[category,sid,ident,peplen,single_sub_pos,Nterm_seq,alignseq,Cterm_seq,alignlen,mismatch,gap]
-
+    
+    if qid not in hits_dic:
+        hits_dic[qid]=evalue
+        blastout[qid]=[category,sid,ident,peplen,single_sub_pos,Nterm_seq,alignseq,Cterm_seq,alignlen,mismatch,gap]
+    else:
+        if evalue<hits_dic[qid]:
+            hits_dic[qid]=evalue
+            blastout[qid]=[category,sid,ident,peplen,single_sub_pos,Nterm_seq,alignseq,Cterm_seq,alignlen,mismatch,gap]
 
 header=input3.readline().strip().split("\t")
 
